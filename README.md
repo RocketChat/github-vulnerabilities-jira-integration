@@ -10,12 +10,19 @@ This tool enables the integration of GitHub vulnerabilities with a Jira board, a
 To use this tool as a GitHub action, you need to set the following variables in your GitHub action configuration:
 
 **JIRA_URL:** The URL of your Jira instance.
+
 **JIRA_TOKEN:** A token or API key with sufficient permissions to access Jira.
+
 **JIRA_EMAIL:** The email associated with your Jira account.
+
 **JIRA_PROJECT_ID:** The ID of the Jira project where the vulnerability issues will be created. (Eg: https://rocketchat.atlassian.net/jira/software/c/projects/SB/boards/63 will be: **SB**)
+
 **UID_CUSTOMFIELD_ID:** The ID of the custom field in Jira to store the vulnerability UID. (https://confluence.atlassian.com/jirakb/how-to-find-any-custom-field-s-ids-744522503.html)
+
 **JIRA_COMPLETE_PHASE_ID:** The ID of the transaction where the issue goes to the complete phase. (https://community.atlassian.com/t5/Jira-questions/How-to-fine-transition-ID-of-JIRA/qaq-p/1207483)
+
 **JIRA_START_PHASE_ID:** The ID of the transaction where the issue goes to the backlog phase. (https://community.atlassian.com/t5/Jira-questions/How-to-fine-transition-ID-of-JIRA/qaq-p/1207483)
+
 **GITHUB_TOKEN:** The GitHub token with the necessary permissions to access the repository and create/update issues.
 
 Please ensure that you have properly configured these variables in your GitHub action environment for the tool to function correctly.
