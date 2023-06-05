@@ -25,14 +25,21 @@ class Vulnerability:
         
         #Get authentication strings from enviroment variable
         #Validate if those variables are set
-    
-        jira_url = os.getenv("JIRA_URL")
-        jira_token = os.getenv("JIRA_TOKEN")
-        jira_email = os.getenv("JIRA_EMAIL")
-        project_id = os.getenv("JIRA_PROJECT_ID")
-        uid_customfield_id = os.getenv("UID_CUSTOMFIELD_ID")
-        complete_phase_id = os.getenv("JIRA_COMPLETE_PHASE_ID")
-        start_phase_id = os.getenv("JIRA_START_PHASE_ID")
+        
+        if os.getenv("JIRA_URL") is not None and os.getenv("JIRA_TOKEN") is not None and os.getenv("JIRA_EMAIL") and os.getenv("JIRA_PROJECT_ID") is not None and os.getenv("UID_CUSTOMFIELD_ID") is not None and os.getenv("JIRA_COMPLETE_PHASE_ID") is not None and os.getenv("JIRA_START_PHASE_ID") is not None:
+                    
+            jira_url = os.getenv("JIRA_URL")
+            jira_token = os.getenv("JIRA_TOKEN")
+            jira_email = os.getenv("JIRA_EMAIL")
+            project_id = os.getenv("JIRA_PROJECT_ID")
+            uid_customfield_id = os.getenv("UID_CUSTOMFIELD_ID")
+            complete_phase_id = os.getenv("JIRA_COMPLETE_PHASE_ID")
+            start_phase_id = os.getenv("JIRA_START_PHASE_ID")
+            
+        else:
+            
+            logging.error("You need to setup the variables JIRA_URL, JIRA_TOKEN, JIRA_EMAIL, JIRA_PROJECT_ID, UID_CUSTOMFIELD_ID, JIRA_COMPLETE_PHASE_ID, JIRA_START_PHASE_ID")
+            sys.exit(1)
         
         #Create jira connection
         
@@ -120,20 +127,11 @@ class Vulnerability:
         
         for issue in vulnerabilities_in_board:
             
-            #Check if the required UID field is setup
-            
-            if uid_customfield_id:
+            #Check if the vulnerability ID is equal to Jira's issue UID field "customfield_{number}"
                 
-                #Check if the vulnerability ID is equal to Jira's issue UID field
-                
-                if self._id == getattr(issue.fields, uid_customfield_id):
+            if self._id == getattr(issue.fields, uid_customfield_id):
                     
-                    vulnerability_exist = True
-                    return vulnerability_exist
+                vulnerability_exist = True
+                return vulnerability_exist
                 
-            else:
-                
-                logging.error("The UID_CUSTOMFIELD_ID environment variable is required. Check the documentation.")
-                sys.exit(1)
-        
         return vulnerability_exist

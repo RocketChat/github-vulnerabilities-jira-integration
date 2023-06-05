@@ -1,2 +1,2 @@
-requests=2.31.0
-jira=3.5.1
+requests==2.31.0
+jira==3.5.1

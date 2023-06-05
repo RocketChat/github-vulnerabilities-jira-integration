@@ -7,13 +7,16 @@ import logging
 
 def github_api_request(query):
     
-    github_token = os.getenv('GITHUB_TOKEN')
-    auth_header = {"Authorization": f"bearer {github_token}"}
-    graphql_github_url = os.getenv("GITHUB_GRAPHQL_URL")
     
-    if github_token is None:
+    if os.getenv('GITHUB_TOKEN') is not None and os.getenv("GITHUB_GRAPHQL_URL") is not None:
         
-        logging.error("You must declare the GITHUB_TOKEN enviroment variable")
+        github_token = os.getenv('GITHUB_TOKEN')
+        graphql_github_url = os.getenv("GITHUB_GRAPHQL_URL")
+        auth_header = {"Authorization": f"bearer {github_token}"}
+        
+    else:
+        
+        logging.error("You must declare the GITHUB_TOKEN and GITHUB_GRAPHQL_URL enviroment variable")
         sys.exit(1)
     
     try:
@@ -36,8 +39,17 @@ def github_api_request(query):
 def generate_query(hasnextpage,nextpage=None):
     
         #Get variables from the Github action's environment
-        name_of_organization = os.getenv("GITHUB_REPOSITORY_OWNER")
-        name_of_repository = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
+        
+        if os.getenv("GITHUB_REPOSITORY_OWNER") is not None and os.getenv("GITHUB_REPOSITORY") is not None:
+            
+            name_of_organization = os.getenv("GITHUB_REPOSITORY_OWNER")
+            name_of_repository = os.getenv("GITHUB_REPOSITORY").split("/")[-1]
+            
+        else:
+            
+            logging.error("Add GITHUB_REPOSITORY_OWNER and GITHUB_REPOSITORY in your enviroment variable")
+            sys.exit(1)
+            
         vulnerabilities_in_page = 100
         
         if hasnextpage:

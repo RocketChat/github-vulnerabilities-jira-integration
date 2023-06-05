@@ -1,0 +1,7 @@
+name: "Github vulnerabilities integration with JIRA board"
+description: "This github action integrates the repository vulnerabilities with a specified Jira board"
+author: "Igor Rincon"
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
