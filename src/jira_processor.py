@@ -24,10 +24,15 @@ class Vulnerability:
     def map_jira_issues(self):
         
         #Get authentication strings from enviroment variable
-        #Validate if those variables are set
         
-        if os.getenv("JIRA_URL") is not None and os.getenv("JIRA_TOKEN") is not None and os.getenv("JIRA_EMAIL") and os.getenv("JIRA_PROJECT_ID") is not None and os.getenv("UID_CUSTOMFIELD_ID") is not None and os.getenv("JIRA_COMPLETE_PHASE_ID") is not None and os.getenv("JIRA_START_PHASE_ID") is not None:
-                    
+        #Validate if those variables are set
+        env_vars = ["JIRA_URL", "JIRA_TOKEN", "JIRA_EMAIL", "JIRA_PROJECT_ID", "UID_CUSTOMFIELD_ID", "JIRA_COMPLETE_PHASE_ID", "JIRA_START_PHASE_ID"]
+        missing_vars = []
+        for var in env_vars:
+            if not os.getenv(var):
+                missing_vars.append(var)
+        
+        if len(missing_vars) == 0:                
             jira_url = os.getenv("JIRA_URL")
             jira_token = os.getenv("JIRA_TOKEN")
             jira_email = os.getenv("JIRA_EMAIL")
@@ -38,7 +43,7 @@ class Vulnerability:
             
         else:
             
-            logging.error("You need to setup the variables JIRA_URL, JIRA_TOKEN, JIRA_EMAIL, JIRA_PROJECT_ID, UID_CUSTOMFIELD_ID, JIRA_COMPLETE_PHASE_ID, JIRA_START_PHASE_ID")
+            logging.error(f"You need to setup the variables {' ,'.join(missing_vars)}")
             sys.exit(1)
         
         #Create jira connection
