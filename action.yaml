@@ -5,3 +5,5 @@ author: "Igor Rincon"
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  icon: 'alert-triangle'
+  color: 'red'
