@@ -7,7 +7,11 @@ This tool enables the integration of GitHub vulnerabilities with a Jira board, a
 
 **Updating Vulnerability Status**: It monitors changes in vulnerability status in GitHub. If a vulnerability changes from "open" to another state, the tool opens the corresponding issue in Jira, ensuring that your vulnerability management is synchronized across platforms.
 
+## Variables
+
 To use this tool as a GitHub action, you need to set the following variables in your GitHub action configuration:
+
+**GITHUB_TOKEN:** A github token that integrates with your repository. We recommend you to add a "_GITHUB_TOKEN" with "_" in your action secrets instead of "GITHUB_TOKEN" since the "GITHUB_TOKEN" is a default variable and can't be used.
 
 **JIRA_URL:** The URL of your Jira instance.
 
