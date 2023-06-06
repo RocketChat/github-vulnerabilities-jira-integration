@@ -1,9 +1,9 @@
-# Github Vulnerabilities - Jira Board Integration
+# Github Vulnerabilities - Jira Project Integration
 
 
-This tool enables the integration of GitHub vulnerabilities with a Jira board, automating the process of managing vulnerabilities between these platforms. It is designed to be used as a GitHub action, providing seamless integration into your development workflow. The tool performs the following actions:
+This tool enables the integration of GitHub vulnerabilities with a Jira project, automating the process of managing vulnerabilities between these platforms. It is designed to be used as a GitHub action, providing seamless integration into your development workflow. The tool performs the following actions:
 
-**Closing Vulnerability Issues**: The tool checks the status of vulnerabilities in GitHub and automatically closes the corresponding issue in the Jira board.
+**Closing Vulnerability Issues**: The tool checks the status of vulnerabilities in GitHub and automatically closes the corresponding issue in the Jira project.
 
 **Updating Vulnerability Status**: It monitors changes in vulnerability status in GitHub. If a vulnerability changes from "open" to another state, the tool opens the corresponding issue in Jira, ensuring that your vulnerability management is synchronized across platforms.
 
@@ -45,18 +45,17 @@ To use this tool as a GitHub action, you need to set the following variables in 
 Here is an example of how to integrate this GitHub action:
 
 ```
-name: Github vulnerabilities and jira board integration
+name: Github vulnerabilities and jira project integration
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 */6 * * *'
       
 jobs:
   IntegrateSecurityVulnerabilities:
     runs-on: ubuntu-latest
     steps:
-      - name: "Github vulnerabilities and jira board integration"
+      - name: "Github vulnerabilities and jira project integration"
         uses: RocketChat/github-vulnerabilities-jira-integration@v0.1
         env:
           JIRA_URL: https://example.atlassian.net/
