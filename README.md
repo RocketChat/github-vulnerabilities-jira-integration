@@ -25,6 +25,35 @@ To use this tool as a GitHub action, you need to set the following variables in 
 
 **GITHUB_TOKEN:** The GitHub token with the necessary permissions to access the repository and create/update issues.
 
+## Integrate this Github Action
+
+Here is an example in how to integrate this github action:
+
+```
+name: Github vulnerabilities and jira board integration
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  IntegrateSecurityVulnerabilities:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Github vulnerabilities and jira board integration"
+        uses: RocketChat/github-vulnerabilities-jira-integration@v0.1
+        env:
+          JIRA_URL: https://rocketchat.atlassian.net/
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
+          JIRA_EMAIL: security@rocket.chat
+          JIRA_PROJECT_ID: GJIT
+          UID_CUSTOMFIELD_ID: customfield_10059
+          JIRA_COMPLETE_PHASE_ID: 31
+          JIRA_START_PHASE_ID: 11
+```
+
 Please ensure that you have properly configured these variables in your GitHub action environment for the tool to function correctly.
 
 Note: This tool assumes that you have already set up Jira and GitHub repositories for vulnerability management and have the necessary permissions to perform the required actions.
