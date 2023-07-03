@@ -51,20 +51,19 @@ class Vulnerability:
         jira = JIRA(jira_url, basic_auth=(jira_email,jira_token))
             
         
-        #Mapping Issues
-        #The document says that the search.issues returns only 50 issues, check the 'maxResults' or pagination possibilities
+        #Mapping Issue - Check if the issue exist in Jira's board
         
-        vulnerabilities_in_board = jira.search_issues(f'project={project_id} AND labels = github_vulnerability', maxResults=1000)
-        
+        vulnerability_in_board = jira.search_issues(f'project={project_id} AND "UID[Short text]" ~ {self._id}')
+                
         #Check if vulnerability object is mapped in Jira's board, if not, create it
             
-        if self.check_if_vulnerability_is_mapped(vulnerabilities_in_board, uid_customfield_id):
+        if vulnerability_in_board:
                 
             #Update existing vulnerability information
-            self.update_vulnerability(jira, vulnerabilities_in_board, uid_customfield_id, complete_phase_id, start_phase_id)
+            self.update_vulnerability(jira, vulnerability_in_board, uid_customfield_id, complete_phase_id, start_phase_id)
            
         else:
-                
+            
             self.create_vulnerability(jira, project_id, uid_customfield_id, complete_phase_id)
 
             
@@ -122,21 +121,3 @@ class Vulnerability:
             if self._id == getattr(issue.fields, uid_customfield_id) and self._state == "OPEN" and issue.fields.status.id != start_state_id:
                 
                 jira.transition_issue(issue.key, start_phase_id)
-                
-                
-    def check_if_vulnerability_is_mapped(self, vulnerabilities_in_board, uid_customfield_id):
-        
-        vulnerability_exist = False
-        
-        #Check if vulnerability exist in Jira's project, if don't, call create_vulnerability() method
-        
-        for issue in vulnerabilities_in_board:
-            
-            #Check if the vulnerability ID is equal to Jira's issue UID field "customfield_{number}"
-                
-            if self._id == getattr(issue.fields, uid_customfield_id):
-                    
-                vulnerability_exist = True
-                return vulnerability_exist
-                
-        return vulnerability_exist
