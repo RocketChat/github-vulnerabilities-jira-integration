@@ -53,7 +53,7 @@ class Vulnerability:
         
         #Mapping Issue - Check if the issue exist in Jira's board
         
-        vulnerability_in_board = jira.search_issues(f'project={project_id} AND "UID[Short text]" ~ {self._id}')
+        vulnerability_in_board = jira.search_issues(f'project={project_id} AND "UID[Short text]" ~ "{self._id}"')
                 
         #Check if vulnerability object is mapped in Jira's board, if not, create it
             
